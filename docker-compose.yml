@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  attendance-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: student-attendance-app:v1.0.0
+    container_name: attendance_app_container
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    volumes:
+      - attendance_data:/usr/src/app/data
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  attendance_data:

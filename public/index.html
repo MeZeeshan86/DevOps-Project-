@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation Bar -->
+        <header class="app-header">
+            <div class="header-brand">
+                <div class="brand-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="brand-title">Student Attendance Management System</h1>
+                    <p class="brand-sub">DevOps Enabled · Version 1.0.0</p>
+                </div>
+            </div>
+            <nav class="nav-tabs">
+                <button class="nav-tab active" data-tab="tab-daily">Daily Attendance</button>
+                <button class="nav-tab" data-tab="tab-monthly">Monthly Report</button>
+                <button class="nav-tab" data-tab="tab-students">Student Directory</button>
+                <button class="nav-tab" data-tab="tab-devops">DevOps Live Pipeline</button>
+            </nav>
+        </header>
+
+        <!-- Notification Toast -->
+        <div id="toast" class="toast hidden"></div>
+
+        <!-- MAIN VIEW -->
+        <main class="content-wrapper">
+            
+            <!-- Tab 1: Daily Attendance View (Matches Exact User Screenshot 1) -->
+            <section id="tab-daily" class="tab-pane active">
+                <div class="panel-header">
+                    <div class="panel-title-group">
+                        <span class="preview-badge">Sample preview · CSE (AI & ML)</span>
+                    </div>
+                    <div class="panel-actions">
+                        <button id="btn-save-attendance" class="btn btn-primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                            Save Attendance
+                        </button>
+                    </div>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="date-selector-wrapper">
+                        <label for="attendance-date" class="selector-label">Attendance date</label>
+                        <div class="date-picker-card">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            <input type="date" id="attendance-date" value="2026-10-14">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                    </div>
+
+                    <div class="quick-mark-pills">
+                        <button id="btn-mark-all-p" class="pill-badge pill-present" title="Mark All Present">
+                            <span class="dot"></span> P — Present
+                        </button>
+                        <button id="btn-mark-all-a" class="pill-badge pill-absent" title="Mark All Absent">
+                            <span class="dot"></span> A — Absent
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Daily Attendance Table -->
+                <div class="table-card">
+                    <table class="attendance-table" id="table-daily-attendance">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%;">Roll No.</th>
+                                <th style="width: 30%;">Student</th>
+                                <th class="text-center">P1</th>
+                                <th class="text-center">P2</th>
+                                <th class="text-center">P3</th>
+                                <th class="text-center">P4</th>
+                                <th class="text-center">P5</th>
+                                <th class="text-center">P6</th>
+                                <th class="text-center">P7</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendance-tbody">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Tab 2: Monthly Attendance Report (Matches Exact User Screenshot 2) -->
+            <section id="tab-monthly" class="tab-pane">
+                <div class="panel-header">
+                    <div>
+                        <h2 class="section-title">Sample monthly report</h2>
+                        <p class="section-subtitle">Department: CSE (AI & ML) · Threshold: &lt; 75.00% flagged</p>
+                    </div>
+                    <div class="panel-actions">
+                        <select id="monthly-picker" class="dropdown-select">
+                            <option value="2026-10" selected>October 2026</option>
+                            <option value="2026-09">September 2026</option>
+                        </select>
+                        <button id="btn-export-csv" class="btn btn-secondary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Export CSV
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Summary Statistics Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-label">Total Registered</span>
+                        <span class="stat-value" id="stat-total-students">5</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Monthly Working Periods</span>
+                        <span class="stat-value" id="stat-working-periods">154</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Class Average Attendance</span>
+                        <span class="stat-value text-success" id="stat-class-average">88.35%</span>
+                    </div>
+                    <div class="stat-card stat-alert">
+                        <span class="stat-label">Defaulters (&lt; 75%)</span>
+                        <span class="stat-value text-danger" id="stat-defaulter-count">1</span>
+                    </div>
+                </div>
+
+                <!-- Monthly Table -->
+                <div class="table-card">
+                    <table class="report-table" id="table-monthly-report">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%;">Roll No.</th>
+                                <th style="width: 25%;">Student</th>
+                                <th class="text-right">Working periods</th>
+                                <th class="text-right">Present</th>
+                                <th class="text-right">Absent</th>
+                                <th class="text-right">Attendance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="monthly-tbody">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Tab 3: Student Management -->
+            <section id="tab-students" class="tab-pane">
+                <div class="panel-header">
+                    <div>
+                        <h2 class="section-title">Student Directory</h2>
+                        <p class="section-subtitle">Manage class enrollments and department mapping</p>
+                    </div>
+                </div>
+
+                <div class="student-management-grid">
+                    <!-- Add Student Form -->
+                    <div class="form-card">
+                        <h3 class="card-title">Add New Student</h3>
+                        <form id="form-add-student">
+                            <div class="form-group">
+                                <label for="input-roll">Roll Number</label>
+                                <input type="text" id="input-roll" placeholder="e.g. 106" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-name">Student Name</label>
+                                <input type="text" id="input-name" placeholder="e.g. Student 6" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="input-dept">Department</label>
+                                <input type="text" id="input-dept" value="CSE (AI & ML)" required>
+                            </div>
+                            <button type="submit" id="btn-submit-student" class="btn btn-primary btn-block">Add Student</button>
+                        </form>
+                    </div>
+
+                    <!-- Student List -->
+                    <div class="table-card">
+                        <table class="report-table" id="table-students-list">
+                            <thead>
+                                <tr>
+                                    <th>Roll No.</th>
+                                    <th>Student Name</th>
+                                    <th>Department</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="students-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 4: DevOps Live Pipeline Dashboard -->
+            <section id="tab-devops" class="tab-pane">
+                <div class="panel-header">
+                    <div>
+                        <h2 class="section-title">DevOps CI/CD Integration Dashboard</h2>
+                        <p class="section-subtitle">Real-time telemetry across Git, Jenkins, Docker, K8s, and Selenium</p>
+                    </div>
+                </div>
+
+                <div class="pipeline-flow">
+                    <div class="stage-step success">
+                        <div class="stage-icon">GIT</div>
+                        <div class="stage-info">
+                            <h4>Source Control</h4>
+                            <span class="badge badge-success">Branch: main</span>
+                            <p>Commit: a9c104e</p>
+                        </div>
+                    </div>
+                    <div class="pipeline-connector active"></div>
+                    <div class="stage-step success">
+                        <div class="stage-icon">JENKINS</div>
+                        <div class="stage-info">
+                            <h4>CI Pipeline</h4>
+                            <span class="badge badge-success">Build #14 PASSED</span>
+                            <p>All stages green</p>
+                        </div>
+                    </div>
+                    <div class="pipeline-connector active"></div>
+                    <div class="stage-step success">
+                        <div class="stage-icon">DOCKER</div>
+                        <div class="stage-info">
+                            <h4>Container Image</h4>
+                            <span class="badge badge-success">attendance-app:v1.0</span>
+                            <p>Alpine Node base</p>
+                        </div>
+                    </div>
+                    <div class="pipeline-connector active"></div>
+                    <div class="stage-step success">
+                        <div class="stage-icon">K8S</div>
+                        <div class="stage-info">
+                            <h4>Cluster Deployment</h4>
+                            <span class="badge badge-success">3/3 Pods Ready</span>
+                            <p>ClusterIP Service</p>
+                        </div>
+                    </div>
+                    <div class="pipeline-connector active"></div>
+                    <div class="stage-step success">
+                        <div class="stage-icon">SELENIUM</div>
+                        <div class="stage-info">
+                            <h4>Automated QA</h4>
+                            <span class="badge badge-success">10/10 Passed</span>
+                            <p>Chrome Headless</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="devops-details-grid">
+                    <div class="console-card">
+                        <div class="console-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="console-title">Jenkins Declarative Pipeline Log</span>
+                        </div>
+                        <pre class="console-body">
+[Pipeline] Start of Pipeline
+[Pipeline] stage: Checkout SCM
+ > git rev-parse --is-inside-work-tree # timeout=10
+ > git checkout -b main origin/main
+[Pipeline] stage: Install Dependencies
+ + npm ci
+ added 135 packages in 8.4s
+[Pipeline] stage: Selenium Automated Test Suite
+ + node tests/selenium_tests.js
+  ✓ Test 1: Verify attendance page displays all registered students
+  ✓ Test 2: Verify attendance marked for all 7 periods
+  ✓ Test 3: Verify attendance saved successfully
+  ✓ Test 4: Verify invalid student info handled
+  ✓ Test 5: Verify duplicate attendance prevented
+  ✓ Test 6: Verify monthly attendance totals calculated
+  ✓ Test 7: Verify attendance percentage displayed
+  ✓ Test 8: Verify students below threshold identified
+  ✓ Test 9: Verify monthly report exported
+  ✓ Test 10: Verify persistence after restart
+  ==============================================
+  All 10 Selenium test cases PASSED (0 failures)
+[Pipeline] stage: Docker Build & Package
+ + docker build -t student-attendance:v1.0.0 .
+ Successfully tagged student-attendance:v1.0.0
+[Pipeline] stage: Kubernetes Deploy
+ + kubectl apply -f k8s/
+ deployment.apps/student-attendance-app configured
+ service/student-attendance-service configured
+[Pipeline] End of Pipeline
+Finished: SUCCESS
+                        </pre>
+                    </div>
+
+                    <div class="manifest-card">
+                        <div class="console-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="console-title">Kubernetes Cluster Pod Status</span>
+                        </div>
+                        <pre class="console-body">
+NAME                                     READY   STATUS    RESTARTS   AGE
+student-attendance-app-7d995c884b-2x9lq   1/1     Running   0          42m
+student-attendance-app-7d995c884b-8klm1   1/1     Running   0          42m
+student-attendance-app-7d995c884b-p98wq   1/1     Running   0          42m
+
+NAME                         TYPE        CLUSTER-IP       PORT(S)
+student-attendance-service   NodePort    10.104.148.210   3000:30080/TCP
+                        </pre>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

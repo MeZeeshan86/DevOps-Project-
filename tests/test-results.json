@@ -1,0 +1,56 @@
+{
+  "timestamp": "2026-10-27T15:15:58.148Z",
+  "duration": "7.61",
+  "testResults": [
+    {
+      "id": 1,
+      "name": "Verify attendance page displays registered students",
+      "status": "PASSED"
+    },
+    {
+      "id": 2,
+      "name": "Verify attendance marked for all seven periods",
+      "status": "PASSED"
+    },
+    {
+      "id": 3,
+      "name": "Verify attendance saved successfully for date",
+      "status": "PASSED"
+    },
+    {
+      "id": 4,
+      "name": "Verify missing/invalid student info handled correctly",
+      "status": "PASSED"
+    },
+    {
+      "id": 5,
+      "name": "Verify duplicate attendance entries are prevented",
+      "status": "PASSED"
+    },
+    {
+      "id": 6,
+      "name": "Verify monthly attendance totals calculated correctly",
+      "status": "PASSED"
+    },
+    {
+      "id": 7,
+      "name": "Verify attendance percentage displayed correctly",
+      "status": "PASSED"
+    },
+    {
+      "id": 8,
+      "name": "Verify students below configured threshold identified",
+      "status": "PASSED"
+    },
+    {
+      "id": 9,
+      "name": "Verify monthly report can be generated and exported",
+      "status": "PASSED"
+    },
+    {
+      "id": 10,
+      "name": "Verify saved records remain available after app restart",
+      "status": "PASSED"
+    }
+  ]
+}

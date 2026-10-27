@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student-attendance-app
+  labels:
+    app: student-attendance
+    tier: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: student-attendance
+  template:
+    metadata:
+      labels:
+        app: student-attendance
+    spec:
+      containers:
+      - name: attendance-container
+        image: student-attendance-app:v1.0.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+          name: http
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 10
